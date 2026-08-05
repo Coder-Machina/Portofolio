@@ -31,6 +31,8 @@ RUN npm ci
 
 # Code source
 COPY . .
+ARG APP_URL=https://portofolio-fuzl.onrender.com
+ENV APP_URL=${APP_URL}
 RUN npm run build
 
 # Finaliser composer (scripts post-install)
