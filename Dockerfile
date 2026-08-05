@@ -27,6 +27,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 RUN npm install
 RUN npm run build
+RUN if [ ! -f .env ]; then cp .env.example .env; fi
 RUN php artisan key:generate --force
 
 EXPOSE 10000
