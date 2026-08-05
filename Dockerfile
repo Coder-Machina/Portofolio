@@ -20,14 +20,20 @@ RUN apk add --no-cache \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Dépendances PHP
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist --no-scripts
 
+# Dépendances JS + build
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# Code source
 COPY . .
 RUN npm run build
+
+# Finaliser composer (scripts post-install)
+RUN composer run-script post-autoload-dump
 
 RUN if [ ! -f .env ]; then cp .env.example .env; fi
 RUN if [ ! -f database/database.sqlite ]; then mkdir -p database && touch database/database.sqlite; fi
