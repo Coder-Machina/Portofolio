@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     curl \
+    ca-certificates \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
