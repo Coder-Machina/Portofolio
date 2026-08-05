@@ -15,8 +15,9 @@ RUN apk add --no-cache \
     freetype-dev \
     libzip-dev \
     icu-dev \
+    libpq-dev \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install gd pdo pdo_mysql zip intl bcmath opcache
+ && docker-php-ext-install gd pdo pdo_pgsql zip intl bcmath opcache
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
