@@ -28,7 +28,10 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-di
 RUN npm install
 RUN npm run build
 RUN if [ ! -f .env ]; then cp .env.example .env; fi
+RUN if [ ! -f database/database.sqlite ]; then mkdir -p database && touch database/database.sqlite; fi
 RUN php artisan key:generate --force
+RUN php artisan migrate --force
+RUN php artisan db:seed --force
 
 EXPOSE 10000
 CMD ["sh", "-lc", "php artisan serve --host 0.0.0.0 --port ${PORT:-10000} --no-reload"]
